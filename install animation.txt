@@ -1,0 +1,140 @@
+Step 1: Cài đặt framer-motion
+``` bash: 
+npm install framer-motion
+
+Step 2: Import và sử dụng trong component
+``` jsx
+import { motion } from "framer-motion"
+
+// Ví dụ cơ bản - Fade In
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  Nội dung của bạn
+</motion.div>
+
+Step 3: Các animation cơ bản thường dùng
+
+// 1. Fade In (Hiện dần)
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 2. Slide In từ trái
+<motion.div
+  initial={{ x: -100, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 3. Slide In từ phải
+<motion.div
+  initial={{ x: 100, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 4. Slide In từ dưới
+<motion.div
+  initial={{ y: 50, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 5. Scale (Phóng to)
+<motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 6. Rotate (Xoay)
+<motion.div
+  initial={{ rotate: -180, opacity: 0 }}
+  animate={{ rotate: 0, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 7. Hover Effect
+<motion.div
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+>
+
+// 8. Animation khi scroll vào view
+import { useInView } from "framer-motion"
+import { useRef } from "react"
+
+const ref = useRef(null)
+const isInView = useInView(ref, { once: true })
+
+<motion.div
+  ref={ref}
+  initial={{ opacity: 0, y: 50 }}
+  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+  transition={{ duration: 0.5 }}
+>
+
+// 9. Stagger Animation (cho danh sách)
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+}
+
+<motion.div variants={container} initial="hidden" animate="show">
+  <motion.div variants={item}>Item 1</motion.div>
+  <motion.div variants={item}>Item 2</motion.div>
+  <motion.div variants={item}>Item 3</motion.div>
+</motion.div>
+
+// 10. Spring Animation (Bouncy)
+<motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+>
+
+Step 4: Ví dụ component hoàn chỉnh
+``` jsx
+import { motion } from "framer-motion"
+
+function AnimatedComponent() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="p-4 bg-blue-500 text-white rounded"
+    >
+      <motion.h1
+        whileHover={{ scale: 1.1 }}
+        className="text-2xl font-bold"
+      >
+        Hello World
+      </motion.h1>
+    </motion.div>
+  )
+}
+
+Lưu ý:
+- Thay thẻ HTML thường bằng motion.tênThẻ (ví dụ: div -> motion.div)
+- initial: trạng thái ban đầu
+- animate: trạng thái khi animate
+- transition: cấu hình animation (duration, delay, ease, etc.)
+- whileHover: animation khi hover
+- whileTap: animation khi click
+

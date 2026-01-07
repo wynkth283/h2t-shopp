@@ -1,0 +1,390 @@
+================================================================================
+SCHEMA CƠ SỞ DỮ LIỆU THƯƠNG MẠI ĐIỆN TỬ - TỐI ƯU HÓA
+================================================================================
+
+1. BẢNG USERS (Người dùng)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- name (VARCHAR(255), NOT NULL)
+- email (VARCHAR(255), UNIQUE, NOT NULL, INDEX)
+- email_verified_at (TIMESTAMP, NULLABLE)
+- password (VARCHAR(255), NOT NULL)
+- phone (VARCHAR(20), NULLABLE, INDEX)
+- address (TEXT, NULLABLE)
+- avatar (VARCHAR(500), NULLABLE)
+- role (ENUM('admin', 'user', 'seller'), DEFAULT 'user', INDEX)
+- status (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- remember_token (VARCHAR(100), NULLABLE)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (email)
+- INDEX (phone)
+- INDEX (role)
+- INDEX (status)
+- INDEX (created_at)
+
+================================================================================
+
+2. BẢNG CATEGORIES (Danh mục sản phẩm)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- tendanhmuc (VARCHAR(255), NOT NULL)
+- slug (VARCHAR(255), UNIQUE, NOT NULL, INDEX) -- SEO friendly URL
+- mota (TEXT, NULLABLE)
+- hinhanh (VARCHAR(500), NULLABLE)
+- parent_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> categories.id) -- Danh mục cha
+- thu_tu (INT, DEFAULT 0, INDEX) -- Thứ tự hiển thị
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- meta_title (VARCHAR(255), NULLABLE) -- SEO
+- meta_description (TEXT, NULLABLE) -- SEO
+- meta_keywords (VARCHAR(500), NULLABLE) -- SEO
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (slug)
+- INDEX (parent_id)
+- INDEX (thu_tu)
+- INDEX (trang_thai)
+- FULLTEXT INDEX (tendanhmuc, mota) -- Tìm kiếm fulltext
+
+================================================================================
+
+3. BẢNG BRANDS (Thương hiệu)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- tenthuonghieu (VARCHAR(255), NOT NULL)
+- slug (VARCHAR(255), UNIQUE, NOT NULL, INDEX) -- SEO friendly URL
+- logo (VARCHAR(500), NULLABLE)
+- mota (TEXT, NULLABLE)
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- meta_title (VARCHAR(255), NULLABLE) -- SEO
+- meta_description (TEXT, NULLABLE) -- SEO
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (slug)
+- INDEX (trang_thai)
+- FULLTEXT INDEX (tenthuonghieu, mota) -- Tìm kiếm fulltext
+
+================================================================================
+
+4. BẢNG PROVINCES (Tỉnh/Thành phố)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- tentinh (VARCHAR(255), NOT NULL)
+- slug (VARCHAR(255), UNIQUE, NOT NULL, INDEX) -- SEO friendly URL
+- ma_tinh (VARCHAR(10), UNIQUE, NULLABLE) -- Mã tỉnh
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (slug)
+- UNIQUE INDEX (ma_tinh)
+- INDEX (trang_thai)
+
+================================================================================
+
+5. BẢNG PRODUCTS (Sản phẩm) - BẢNG CHÍNH
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- tensp (VARCHAR(500), NOT NULL)
+- slug (VARCHAR(500), UNIQUE, NOT NULL, INDEX) -- SEO friendly URL
+- masp (VARCHAR(100), UNIQUE, NULLABLE, INDEX) -- Mã sản phẩm
+- mota_ngan (TEXT, NULLABLE) -- Mô tả ngắn
+- mota_chi_tiet (LONGTEXT, NULLABLE) -- Mô tả chi tiết
+- giasp (DECIMAL(15,2), NOT NULL, INDEX) -- Giá sản phẩm
+- gia_goc (DECIMAL(15,2), NULLABLE) -- Giá gốc (trước khi giảm)
+- giamgia (DECIMAL(5,2), DEFAULT 0, INDEX) -- Phần trăm giảm giá
+- hinhanhsp (VARCHAR(500), NULLABLE) -- Hình ảnh chính
+- gallery (JSON, NULLABLE) -- Mảng hình ảnh phụ
+- so_luong (INT, DEFAULT 0, INDEX) -- Số lượng tồn kho
+- so_luong_da_ban (INT, DEFAULT 0, INDEX) -- Số lượng đã bán
+- danh_gia_tb (DECIMAL(3,2), DEFAULT 0, INDEX) -- Đánh giá trung bình (0-5)
+- so_luong_danh_gia (INT, DEFAULT 0) -- Số lượng đánh giá
+- category_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> categories.id, INDEX)
+- brand_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> brands.id, INDEX)
+- province_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> provinces.id, INDEX)
+- spmoi (TINYINT, DEFAULT 0, INDEX) -- 1: sản phẩm mới, 0: không
+- hoivien (TINYINT, DEFAULT 0, INDEX) -- 1: ưu đãi hội viên, 0: không
+- hot (TINYINT, DEFAULT 0, INDEX) -- 1: sản phẩm hot, 0: không
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- view_count (INT, DEFAULT 0, INDEX) -- Số lượt xem
+- meta_title (VARCHAR(255), NULLABLE) -- SEO
+- meta_description (TEXT, NULLABLE) -- SEO
+- meta_keywords (VARCHAR(500), NULLABLE) -- SEO
+- created_at (TIMESTAMP, INDEX)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (slug)
+- UNIQUE INDEX (masp)
+- INDEX (giasp)
+- INDEX (giamgia)
+- INDEX (so_luong)
+- INDEX (so_luong_da_ban)
+- INDEX (danh_gia_tb)
+- INDEX (category_id)
+- INDEX (brand_id)
+- INDEX (province_id)
+- INDEX (spmoi)
+- INDEX (hoivien)
+- INDEX (hot)
+- INDEX (trang_thai)
+- INDEX (view_count)
+- INDEX (created_at)
+- COMPOSITE INDEX (category_id, trang_thai, spmoi) -- Tối ưu truy vấn danh mục
+- COMPOSITE INDEX (brand_id, trang_thai) -- Tối ưu truy vấn thương hiệu
+- COMPOSITE INDEX (trang_thai, spmoi, hoivien) -- Tối ưu truy vấn sản phẩm đặc biệt
+- COMPOSITE INDEX (giasp, trang_thai) -- Tối ưu sắp xếp theo giá
+- COMPOSITE INDEX (danh_gia_tb, so_luong_danh_gia) -- Tối ưu sắp xếp theo đánh giá
+- FULLTEXT INDEX (tensp, mota_ngan, mota_chi_tiet) -- Tìm kiếm fulltext
+
+================================================================================
+
+6. BẢNG PRODUCT_IMAGES (Hình ảnh sản phẩm - Normalized)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- image_url (VARCHAR(500), NOT NULL)
+- thu_tu (INT, DEFAULT 0, INDEX) -- Thứ tự hiển thị
+- is_primary (TINYINT, DEFAULT 0) -- 1: ảnh chính, 0: ảnh phụ
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (product_id)
+- INDEX (thu_tu)
+- COMPOSITE INDEX (product_id, is_primary)
+
+================================================================================
+
+7. BẢNG PRODUCT_REVIEWS (Đánh giá sản phẩm)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- user_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> users.id, INDEX)
+- rating (TINYINT, NOT NULL, INDEX) -- 1-5 sao
+- comment (TEXT, NULLABLE)
+- images (JSON, NULLABLE) -- Hình ảnh đánh giá
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: approved, 0: pending
+- helpful_count (INT, DEFAULT 0, INDEX) -- Số người thấy hữu ích
+- created_at (TIMESTAMP, INDEX)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (product_id)
+- INDEX (user_id)
+- INDEX (rating)
+- INDEX (trang_thai)
+- INDEX (created_at)
+- COMPOSITE INDEX (product_id, trang_thai, rating) -- Tối ưu truy vấn đánh giá
+- UNIQUE INDEX (product_id, user_id) -- Một user chỉ đánh giá 1 lần/sản phẩm
+
+================================================================================
+
+8. BẢNG CARTS (Giỏ hàng)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> users.id, INDEX) -- NULL nếu guest
+- session_id (VARCHAR(255), NULLABLE, INDEX) -- Cho guest users
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- so_luong (INT, NOT NULL, DEFAULT 1)
+- gia (DECIMAL(15,2), NOT NULL) -- Giá tại thời điểm thêm vào giỏ
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (user_id)
+- INDEX (session_id)
+- INDEX (product_id)
+- COMPOSITE INDEX (user_id, product_id) -- Tối ưu kiểm tra sản phẩm trong giỏ
+- COMPOSITE INDEX (session_id, product_id) -- Tối ưu cho guest
+
+================================================================================
+
+9. BẢNG ORDERS (Đơn hàng)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- ma_don_hang (VARCHAR(50), UNIQUE, NOT NULL, INDEX) -- Mã đơn hàng
+- user_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> users.id, INDEX)
+- ho_ten (VARCHAR(255), NOT NULL)
+- email (VARCHAR(255), NOT NULL, INDEX)
+- phone (VARCHAR(20), NOT NULL, INDEX)
+- dia_chi (TEXT, NOT NULL)
+- province_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> provinces.id)
+- tong_tien (DECIMAL(15,2), NOT NULL, INDEX)
+- phi_van_chuyen (DECIMAL(15,2), DEFAULT 0)
+- giam_gia (DECIMAL(15,2), DEFAULT 0) -- Mã giảm giá
+- thanh_tien (DECIMAL(15,2), NOT NULL) -- Tổng tiền cuối cùng
+- phuong_thuc_thanh_toan (VARCHAR(50), NULLABLE, INDEX)
+- trang_thai (ENUM('pending', 'confirmed', 'processing', 'shipping', 'delivered', 'cancelled'), DEFAULT 'pending', INDEX)
+- ghi_chu (TEXT, NULLABLE)
+- created_at (TIMESTAMP, INDEX)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (ma_don_hang)
+- INDEX (user_id)
+- INDEX (email)
+- INDEX (phone)
+- INDEX (tong_tien)
+- INDEX (phuong_thuc_thanh_toan)
+- INDEX (trang_thai)
+- INDEX (created_at)
+- COMPOSITE INDEX (user_id, trang_thai) -- Tối ưu truy vấn đơn hàng của user
+- COMPOSITE INDEX (trang_thai, created_at) -- Tối ưu truy vấn đơn hàng theo trạng thái
+
+================================================================================
+
+10. BẢNG ORDER_ITEMS (Chi tiết đơn hàng)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- order_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> orders.id, INDEX)
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- tensp (VARCHAR(500), NOT NULL) -- Lưu tên sản phẩm tại thời điểm đặt hàng
+- hinhanhsp (VARCHAR(500), NULLABLE) -- Lưu hình ảnh tại thời điểm đặt hàng
+- so_luong (INT, NOT NULL)
+- gia (DECIMAL(15,2), NOT NULL) -- Giá tại thời điểm đặt hàng
+- giamgia (DECIMAL(5,2), DEFAULT 0) -- Phần trăm giảm giá tại thời điểm đặt hàng
+- thanh_tien (DECIMAL(15,2), NOT NULL) -- Thành tiền = số lượng * giá * (1 - giamgia/100)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (order_id)
+- INDEX (product_id)
+- COMPOSITE INDEX (order_id, product_id)
+
+================================================================================
+
+11. BẢNG COUPONS (Mã giảm giá)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- ma_giam_gia (VARCHAR(50), UNIQUE, NOT NULL, INDEX)
+- ten (VARCHAR(255), NOT NULL)
+- loai (ENUM('percent', 'fixed'), NOT NULL) -- Phần trăm hoặc số tiền cố định
+- gia_tri (DECIMAL(15,2), NOT NULL)
+- gia_tri_toi_thieu (DECIMAL(15,2), NULLABLE) -- Giá trị đơn hàng tối thiểu
+- so_luong (INT, NULLABLE) -- Số lượng mã có thể sử dụng
+- da_su_dung (INT, DEFAULT 0) -- Số lượng đã sử dụng
+- ngay_bat_dau (DATE, NULLABLE, INDEX)
+- ngay_ket_thuc (DATE, NULLABLE, INDEX)
+- trang_thai (TINYINT, DEFAULT 1, INDEX) -- 1: active, 0: inactive
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- UNIQUE INDEX (ma_giam_gia)
+- INDEX (ngay_bat_dau)
+- INDEX (ngay_ket_thuc)
+- INDEX (trang_thai)
+
+================================================================================
+
+12. BẢNG WISHLISTS (Danh sách yêu thích)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> users.id, INDEX)
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (user_id)
+- INDEX (product_id)
+- UNIQUE INDEX (user_id, product_id) -- Một user chỉ thêm 1 lần/sản phẩm
+
+================================================================================
+
+13. BẢNG SEARCH_HISTORY (Lịch sử tìm kiếm)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> users.id, INDEX)
+- session_id (VARCHAR(255), NULLABLE, INDEX)
+- keyword (VARCHAR(255), NOT NULL, INDEX)
+- result_count (INT, DEFAULT 0)
+- created_at (TIMESTAMP, INDEX)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (user_id)
+- INDEX (session_id)
+- INDEX (keyword)
+- INDEX (created_at)
+- COMPOSITE INDEX (user_id, created_at) -- Tối ưu lịch sử tìm kiếm của user
+
+================================================================================
+
+14. BẢNG PRODUCT_VIEWS (Lượt xem sản phẩm - Analytics)
+--------------------------------------------------------------------------------
+- id (BIGINT UNSIGNED, PRIMARY KEY, AUTO_INCREMENT)
+- product_id (BIGINT UNSIGNED, NOT NULL, FOREIGN KEY -> products.id, INDEX)
+- user_id (BIGINT UNSIGNED, NULLABLE, FOREIGN KEY -> users.id, INDEX)
+- session_id (VARCHAR(255), NULLABLE, INDEX)
+- ip_address (VARCHAR(45), NULLABLE, INDEX)
+- created_at (TIMESTAMP, INDEX)
+
+INDEXES:
+- PRIMARY KEY (id)
+- INDEX (product_id)
+- INDEX (user_id)
+- INDEX (session_id)
+- INDEX (ip_address)
+- INDEX (created_at)
+- COMPOSITE INDEX (product_id, created_at) -- Tối ưu thống kê lượt xem
+
+================================================================================
+
+TỐI ƯU HÓA VÀ BEST PRACTICES
+================================================================================
+
+1. INDEXES:
+   - Tất cả foreign keys đều có index
+   - Các trường thường dùng trong WHERE, ORDER BY, GROUP BY đều có index
+   - Composite indexes cho các truy vấn phức tạp
+   - Fulltext indexes cho tìm kiếm văn bản
+
+2. SEO OPTIMIZATION:
+   - Slug cho tất cả bảng có thể truy cập qua URL
+   - Meta title, description, keywords cho products, categories, brands
+   - View count để tracking popularity
+   - Created_at index để sắp xếp theo thời gian
+
+3. PERFORMANCE:
+   - Sử dụng DECIMAL cho giá tiền (chính xác)
+   - JSON cho dữ liệu không cần query riêng (gallery, images)
+   - Tách bảng product_images để normalize
+   - Lưu snapshot dữ liệu trong order_items (không bị ảnh hưởng khi sản phẩm thay đổi)
+
+4. DATA INTEGRITY:
+   - Foreign key constraints
+   - Unique constraints cho slug, mã sản phẩm
+   - Default values hợp lý
+   - Timestamps cho tracking
+
+5. SCALABILITY:
+   - Partitioning có thể áp dụng cho orders, product_views theo created_at
+   - Caching layer cho categories, brands (ít thay đổi)
+   - Fulltext search có thể migrate sang Elasticsearch khi scale lớn
+
+================================================================================
+END OF SCHEMA
+================================================================================
+
