@@ -36,7 +36,7 @@ export default function HomePage() {
     return (
         <div className="flex flex-col gap-5 md:gap-10">
             {/* <AdvertisementImg /> */}
-            <div className="snap-center"><SectionBanner /></div>
+            <SectionBanner />
             <nav className="border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
                 <div className="absolute inset-y-0 left-0 w-10 md:w-70 bg-gradient-to-r from-[#fafafa] via-[#fafafa]/50 to-transparent z-20 pointer-events-none"></div>
                 <div className="absolute inset-y-0 right-0 w-10 md:w-70 bg-gradient-to-l from-[#fafafa] via-[#fafafa]/50 to-transparent z-20 pointer-events-none"></div>
@@ -67,11 +67,11 @@ export default function HomePage() {
                     })}
                 </ContainerListSlide>
             </nav>
-            <div className="snap-center" id={linkTo[0].hashlink}><SectionCategories /></div>
-            <div className="snap-center" id={linkTo[1].hashlink}><SectionListNewProduct /></div>
+            <div id={linkTo[0].hashlink}><SectionCategories /></div>
+            <div id={linkTo[1].hashlink}><SectionListNewProduct /></div>
             
             {/* Ưu đãi độc quyền */}
-            <div className="snap-center" id={linkTo[2].hashlink}>
+            <div id={linkTo[2].hashlink}>
                 <div className="relative overflow-hidden rounded-lg md:rounded-4xl bg-[#0f172a] my-6 md:my-12">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-[1] pointer-events-none">
                         <img 
@@ -131,7 +131,7 @@ export default function HomePage() {
                 </div>
             </div>
             {/* Danh mục sản phẩm */}
-            <div className="snap-center" id={linkTo[3].hashlink}><MainProducts></MainProducts></div>
+            <MainProducts></MainProducts>
         </div>
     );
 }

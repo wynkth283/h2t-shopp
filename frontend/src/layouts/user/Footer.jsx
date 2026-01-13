@@ -4,7 +4,7 @@ import { linkTo } from "../../data/linkTo";
 
 export default function AppFooter() {
     return (
-        <footer className="bg-white border-t border-slate-100 mt-20 pt-16 snap-center">
+        <footer className="bg-white border-t border-slate-100 mt-20 pt-16">
             <div className="max-w-7xl mx-auto px-4 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 pb-16">
                     {/* Cột 1: Thương hiệu & Social */}

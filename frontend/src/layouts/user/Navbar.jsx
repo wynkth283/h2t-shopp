@@ -17,7 +17,7 @@ export default function Navbar() {
     const tongspInNavEmpty = tongspInNav === 0;
 
     return (
-        <header className="w-full backdrop-blur-md border-b border-slate-100 relative z-50 snap-start">
+        <header className="w-full backdrop-blur-md border-b border-slate-100 relative z-50">
             <FadeDown className="bg-slate-900 text-slate-300 rounded-b-2xl">
                 <FadeDown className="max-w-7xl mx-auto px-4 flex justify-center md:justify-between items-center h-10 text-[11px] font-medium tracking-wide">
                     <div className="hidden md:flex md:items-center gap-5">
