@@ -131,7 +131,8 @@ export default function HomePage() {
                 </div>
             </div>
             {/* Danh mục sản phẩm */}
-            <MainProducts></MainProducts>
+            <div id={linkTo[3].hashlink}><MainProducts></MainProducts></div>
+            
         </div>
     );
 }
