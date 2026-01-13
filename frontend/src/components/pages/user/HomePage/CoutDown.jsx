@@ -35,24 +35,20 @@ export const Countdown = () => {
   }, [countdownTarget]);
 
   return (
-    <ContainerScrollInViewIn className="flex gap-4 sm:gap-6">
+    <ContainerScrollInViewIn className="flex gap-[1px] md:gap-4">
       {Object.entries(countdown).map(([label, value]) => (
         <ItemScrollInViewLeft
           key={label}
-          className="relative group flex flex-col items-center min-w-[80px] sm:min-w-[90px]"
+          className="relative group flex flex-col items-center min-w-[80px]"
         >
-          <div className="relative w-full flex flex-col items-center justify-center 
-                          rounded-2xl bg-gradient-to-br from-red-900 to-red-950 
-                          px-4 py-4 text-white shadow-2xl shadow-red-900/40 
+          <div className="relative w-15 md:w-full flex flex-col items-center justify-center 
+                          rounded-lg md:rounded-2xl bg-gradient-to-br from-red-900 to-red-950 
+                          p-1 md:px-4 md:py-4 text-white shadow-2xl shadow-red-900/40 
                           border border-white/10 overflow-hidden transition-transform 
                           group-hover:-translate-y-2 duration-500">
-              <div className="absolute -top-6 -right-6 w-12 h-12 bg-white/10 rounded-full blur-xl group-hover:bg-white/20 transition-colors"></div>
-              
-              <span className="relative z-10 text-3xl sm:text-4xl font-black tracking-tighter tabular-nums drop-shadow-md">
+              <span className="relative text-[15px] md:text-3xl font-black tracking-tighter tabular-nums drop-shadow-md">
                 {value.toString().padStart(2, '0')}
               </span>
-
-              <div className="absolute w-full h-px bg-black/10 top-1/2 left-0 shadow-[0_2px_0_rgba(255,255,255,0.09)]"></div>
           </div>
           <div className="mt-1 w-8 h-1 bg-red-900/10 blur-md rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
         </ItemScrollInViewLeft>

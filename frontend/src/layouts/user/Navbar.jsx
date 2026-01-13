@@ -5,9 +5,6 @@ import SearchBox from "../../components/layouts/user/SearchBox";
 import Logo from "../../components/Logo";
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import ContainerListSlide from "../../components/animation/ContainerListSlide";
-import ItemListSlideDown from "../../components/animation/ItemListSlideDown";
-import ItemListSlideUp from "../../components/animation/ItemListSlideUp";
 import FadeDown from "../../components/animation/FadeDown";
 
 export default function Navbar() {
@@ -22,122 +19,101 @@ export default function Navbar() {
     return (
         <header className="w-full backdrop-blur-md border-b border-slate-100 relative z-50 snap-start">
             <FadeDown className="bg-slate-900 text-slate-300 rounded-b-2xl">
-                <FadeDown className="max-w-7xl mx-auto px-4 flex justify-between items-center h-10 text-[11px] font-medium tracking-wide">
-                    <div className="flex items-center gap-5">
-                        <FadeDown className="opacity-70 uppercase tracking-widest">Kết nối</FadeDown>
-                        <ContainerListSlide className="flex gap-3 text-sm">
-                            <ItemListSlideDown>
+                <FadeDown className="max-w-7xl mx-auto px-4 flex justify-center md:justify-between items-center h-10 text-[11px] font-medium tracking-wide">
+                    <div className="hidden md:flex md:items-center gap-5">
+                        <div className="opacity-70 uppercase tracking-widest">Kết nối</div>
+                        <div className="flex gap-3 text-sm">
+                            <div>
                                 <i className="fa-brands fa-facebook-f hover:text-white transition-colors cursor-pointer"></i>
-                            </ItemListSlideDown>
-                            <ItemListSlideDown>
+                            </div>
+                            <div>
                                 <i className="fa-brands fa-instagram hover:text-white transition-colors cursor-pointer"></i>
-                            </ItemListSlideDown>
-                            <ItemListSlideDown>
+                            </div>
+                            <div>
                                 <i className="fa-brands fa-twitter hover:text-white transition-colors cursor-pointer"></i>
-                            </ItemListSlideDown>
-                        </ContainerListSlide>
+                            </div>
+                        </div>
                     </div>
                     
-                    <ContainerListSlide className="flex items-center gap-6">
-                        <ItemListSlideDown>
-                            <NavLink to="/help-contact" className="hover:text-white transition-colors">Trợ giúp & Liên hệ</NavLink>
-                        </ItemListSlideDown>
+                    <div className="flex items-center justify-between gap-6">
+                        <div>
+                            <NavLink to="/help-contact" className="hidden md:block hover:text-white transition-colors">Trợ giúp & Liên hệ</NavLink>
+                        </div>
+                        <div>
+                            <NavLink to="/" className="md:hidden block hover:text-white transition-colors font-bold flex items-center gap-1">
+                                <div className="px-2 py-1 bg-red-900 text-white rounded-full">H</div>
+                                H2T
+                                <span>SHOPP</span>
+                            </NavLink>
+                        </div>
                         {user ? (
-                            <ItemListSlideDown>
-                                <button
-                                    onClick={() => { logout(); navigate('/'); }}
-                                    className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-full transition-all duration-300 shadow-lg shadow-red-900/20"
-                                >
-                                    Đăng xuất
-                                </button>
-                            </ItemListSlideDown>
+                            <div>
+                                <div className="flex justify-between gap-1">
+                                    <NavLink 
+                                        to="/profile" 
+                                        className="flex items-center gap-1 pr-1 rounded-full 
+                                                bg-white/80 backdrop-blur-md border border-slate-200/60 shadow-sm
+                                                hover:bg-red-900 hover:border-red-900 hover:shadow-md hover:shadow-red-900/20 
+                                                transition-all duration-300 ease-out group"
+                                    >
+                                        <div className="relative rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-white/30 transition-all duration-300">
+                                            <img
+                                                src={`https://ui-avatars.com/api/?name=${user.userData.name || 'User'}&background=7f1d1d&color=fff&size=20`}
+                                                alt="Avatar"
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            />
+                                        </div>
+                                        <span className="text-[11px] font-black tracking-tight text-slate-700 group-hover:text-white transition-colors duration-300">
+                                            {user.userData.name || 'Khách hàng'}
+                                        </span>
+                                    </NavLink>
+                                    <button
+                                        onClick={() => { logout(); navigate('/'); }}
+                                        className="hidden md:block bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-full transition-all duration-300 shadow-lg shadow-red-900/20"
+                                    >
+                                        Đăng xuất
+                                    </button>
+                                </div>
+                            </div>
                         ) : (
-                            <ItemListSlideDown>
-                                <ContainerListSlide className="flex items-center gap-4 border-l border-slate-700 pl-6">
-                                    <ItemListSlideDown>
+                            <div>
+                                <div className="flex items-center gap-4 border-l border-slate-700 pl-6">
+                                    <div>
                                         <NavLink to="/sign-in" className="hover:text-white transition-colors">Đăng nhập</NavLink>
-                                    </ItemListSlideDown>
-                                    <ItemListSlideDown>
+                                    </div>
+                                    <div>
                                         <NavLink to="/register" className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-full transition-all duration-300 shadow-lg shadow-red-900/20">
                                             Đăng ký
                                         </NavLink>
-                                    </ItemListSlideDown>
-                                </ContainerListSlide>
-                            </ItemListSlideDown>
+                                    </div>
+                                </div>
+                            </div>
                         )}
-                    </ContainerListSlide>
+                    </div>
                 </FadeDown>
             </FadeDown>
-
-            {/* MAIN NAVBAR */}
             <div className="max-w-7xl mx-auto px-4 py-4">
-                <ContainerListSlide className="flex flex-row items-center justify-between gap-8">
-                    {/* LOGO - Bold & Professional */}
-                    <ItemListSlideUp><Logo/></ItemListSlideUp>
-                    
-                    {/* SEARCH BOX - Flexible width */}
-                    <ItemListSlideUp className="flex-1 max-w-2xl">
+                <div className="hidden md:flex flex-row items-center justify-between gap-8">
+                    <div><Logo/></div>
+                    <div className="block flex-1 max-w-2xl">
                         <SearchBox />
-                    </ItemListSlideUp>
-                    
-                    {/* ACTIONS & PROFILE */}
-                    <ItemListSlideUp className="flex items-center gap-6">
-                        {/* PROFILE QUICK ACCESS */}
-                        {user && (
-                            <NavLink 
-                            to="/profile" 
-                            className="hidden md:flex items-center gap-3 p-1 pl-1 pr-4 rounded-full 
-                                       bg-white/80 backdrop-blur-md border border-slate-200/60 shadow-sm
-                                       hover:bg-red-900 hover:border-red-900 hover:shadow-md hover:shadow-red-900/20 
-                                       transition-all duration-300 ease-out group"
-                        >
-                            {/* Avatar Container với hiệu ứng viền phát sáng */}
-                            <div className="relative w-8 h-8 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-white/30 transition-all duration-300">
-                                <img
-                                    src={`https://ui-avatars.com/api/?name=${user.userData.name || 'User'}&background=7f1d1d&color=fff&size=80`}
-                                    alt="Avatar"
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                            </div>
-                        
-                            {/* Text Info */}
-                            <div className="flex flex-col">
-                                <span className="text-[11px] font-black tracking-tight text-slate-700 group-hover:text-white transition-colors duration-300">
-                                    {user.userData.name || 'Khách hàng'}
-                                </span>
-                                <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 group-hover:text-red-100 transition-colors duration-300">
-                                    Tài khoản
-                                </span>
-                            </div>
-                        
-                            {/* Chevron Icon xuất hiện khi hover */}
-                            <div className="ml-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-white">
-                                <svg xmlns="www.w3.org" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="m9 18 6-6-6-6"/>
-                                </svg>
-                            </div>
-                        </NavLink>
-                        
-                        )}
-
-                        {/* CART WITH PREMIUM DROPDOWN */}
+                    </div>
+                    <div className="flex items-center md:gap-6">
                         <div className="relative group">
-                            <NavLink to="/cart" className="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-red-100 transition-all">
-                                <i className="fa-solid fa-cart-shopping text-xl text-red-900"></i>  
+                            <NavLink to="/cart" className="relative flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-red-100 transition-all">
+                                <i className="fa-solid fa-cart-shopping text-sm md:text-xl text-red-900"></i>  
                                 {!tongspInNavEmpty && (
                                     <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1.5 flex items-center justify-center bg-red-600 text-white text-[10px] font-black rounded-full shadow-lg border-2 border-white animate-in zoom-in">
                                         {tongspInNav}
                                     </span>
                                 )}
                             </NavLink>
-
-                            {/* DROPDOWN MENU */}
                             {
                                 user ? (
-                                    <div className="absolute right-0 mt-4 w-96 bg-white rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-100 overflow-hidden">
+                                    <div className="absolute right-0 mt-4 w-70 md:w-96 bg-white rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-100 overflow-hidden">
                                         {tongspInNavEmpty ? (
-                                            <div className="p-10 text-center">
-                                                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <div className="p-5 md:p-10 text-center">
+                                                <div className="w-15 h-15 md:w-20 md:h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
                                                     <i className="fa-solid fa-box-open text-3xl text-slate-200"></i>
                                                 </div>
                                                 <h4 className="text-slate-800 font-bold mb-1">Giỏ hàng trống</h4>
@@ -167,8 +143,26 @@ export default function Navbar() {
                                 ) : (null)
                             }
                         </div>
-                    </ItemListSlideUp>
-                </ContainerListSlide>
+                    </div>
+                </div>
+                <div className="block md:hidden m-4"></div>
+                <div className="md:hidden flex gap-2 items-center">
+                    <div className="block flex-1 max-w-2xl">
+                        <SearchBox />
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <div className="relative group">
+                            <NavLink to="/cart" className="relative flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-red-100 transition-all">
+                                <i className="fa-solid fa-cart-shopping text-sm md:text-xl text-red-900"></i>  
+                                {!tongspInNavEmpty && (
+                                    <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1.5 flex items-center justify-center bg-red-600 text-white text-[10px] font-black rounded-full shadow-lg border-2 border-white animate-in zoom-in">
+                                        {tongspInNav}
+                                    </span>
+                                )}
+                            </NavLink>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
     );

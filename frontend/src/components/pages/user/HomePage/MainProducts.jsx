@@ -5,10 +5,9 @@ import { danhmucs } from "../../../../data/Categories";
 import { products } from "../../../../data/Product";
 import Checkbox from "../../../Checkbox";
 import TitleSection from "../../../TitleSection";
+import { Menu, X } from "lucide-react";
 
 export default function MainProducts() {
-    const sl_hienthi_lg = 3;
-    const sl_hienthi_xl = 4;
     const [filter, setFilter] = useState({
         category: [],
         thuonghieu: [],
@@ -50,13 +49,27 @@ export default function MainProducts() {
     const totalPages = Math.ceil(filteredProducts.length / perPage);
     const currentData = filteredProducts.slice((page - 1) * perPage, page * perPage);
 
+
+    const [ isOpen, setIsOpen ] = useState(false);
     return (
         <div className="pt-6">
-            <TitleSection>Sản phẩm</TitleSection>
+            <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-6">
+                <TitleSection>Sản phẩm</TitleSection>
+                <button 
+                    onClick={() => setIsOpen(true)} 
+                    className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 active:scale-95 transition-all duration-200 rounded-full border border-gray-200 md:hidden"
+                >
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700">
+                        Bộ lọc
+                    </span>
+                    <Menu size={14} strokeWidth={2.5} className="text-gray-900" />
+                </button>
+            </div>
+
             <div className="mb-6"></div>
-            <div className="grid grid-cols-5 gap-3">
+            <div className="md:grid md:grid-cols-5 md:gap-3 mb-2">
                 {/* ==== Sidebar Filter ==== */}
-                <div className="col-span-1 sticky top-5">
+                <div className={`md:col-span-1 md:sticky md:top-5 ${isOpen ? 'block' : 'hidden'}`}>
                     {/* Danh mục */}
                     <FilterBox title="Danh mục">
                         {danhmucs.map((item) => (
@@ -84,14 +97,22 @@ export default function MainProducts() {
 
                     <button
                         onClick={clearAll}
-                        className="mt-4 bg-red-800 text-white px-3 py-1 rounded-lg hover:shadow-md"
+                        className="mt-2 bg-red-800 text-white px-3 py-1 rounded-lg hover:shadow-md"
                     >
                         Xóa tất cả
                     </button>
+                    <div className="mt-6 pt-4 border-t border-slate-200 flex gap-2">
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-2 flex-1 justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-medium transition-colors"
+                        >
+                            Đóng <X size={18} />
+                        </button>
+                    </div>
                 </div>
 
                 {/* ==== Product List ==== */}
-                <div className="col-span-4">
+                <div className="md:col-span-4 mt-4">
 
                     <div className={`grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}>
                         {currentData.map((item) => (
@@ -150,13 +171,11 @@ function Pagination({ page, totalPages, setPage }) {
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-4 mt-12 pb-8">
-                {/* Thông báo trạng thái nhỏ */}
                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">
                     Trang <span className="text-red-900">{page}</span> trên tổng <span className="text-slate-800">{totalPages}</span>
                 </p>
 
                 <nav className="inline-flex items-center p-1.5 bg-white border border-slate-100 rounded-[20px] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                    {/* Nút Previous */}
                     <button onClick={() => page > 1 && setPage(page - 1)} disabled={page === 1}
                         className={`group flex items-center justify-center w-11 h-11 rounded-[14px] transition-all duration-300 ${
                         page === 1 
@@ -165,14 +184,10 @@ function Pagination({ page, totalPages, setPage }) {
                     }`}>
                         <svg xmlns="www.w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-active:-translate-x-1 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
-
-                    {/* Danh sách các số trang */}
                     <div className="flex items-center px-1">
                         {Array.from({ length: totalPages }, (_, i) => {
                             const pageNumber = i + 1;
                             const isActive = page === pageNumber;
-
-                            // Logic rút gọn trang (chỉ hiện trang hiện tại và lân cận nếu quá nhiều trang)
                             if (totalPages > 5 && Math.abs(pageNumber - page) > 1 && pageNumber !== 1 && pageNumber !== totalPages) {
                                 if (pageNumber === 2 || pageNumber === totalPages - 1) return <span key={i} className="px-2 text-slate-300 font-bold">...</span>;
                                 return null;
@@ -191,8 +206,6 @@ function Pagination({ page, totalPages, setPage }) {
                             );
                         })}
                     </div>
-
-                    {/* Nút Next */}
                     <button onClick={() => page < totalPages && setPage(page + 1)} disabled={page === totalPages}
                         className={`group flex items-center justify-center w-11 h-11 rounded-[14px] transition-all duration-300 ${
                         page === totalPages 

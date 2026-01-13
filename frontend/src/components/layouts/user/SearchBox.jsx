@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { products } from "../../../data/Product";
 import { useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 
 export default function SearchBox() {
     const [val, setVal] = useState("");
@@ -69,16 +70,14 @@ export default function SearchBox() {
     }, []);
 
     useEffect(() => {
-        return () => clearTimeout(timeoutRef.current); // cleanup
+        return () => clearTimeout(timeoutRef.current);
     }, []);
 
     return (
         <div className="relative w-full max-w-[550px] mx-auto group" ref={boxRef}>
-            {/* Search Input Container */}
-            <div className={`flex items-center border-none transition-all duration-500 ease-out rounded-full px-2 py-2 gap-2 border-2 shadow-sm`}>
-                {/* Icon Search */}
+            <div className={`flex items-center border-none transition-all duration-500 ease-out rounded-full gap-2 border-2 shadow-sm`}>
                 <div className={`pl-3 transition-transform duration-300 ${val ? 'scale-110 text-red-800' : 'text-slate-400'}`}>
-                    <svg xmlns="www.w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <Search size={18}/>
                 </div>
 
                 <input
@@ -90,23 +89,19 @@ export default function SearchBox() {
                         if (e.key === "Escape") { setVal(""); setSuggest([]); }
                     }}
                     placeholder="Bạn muốn tìm gì hôm nay?..."
-                    className="p-2 outline-none bg-transparent w-full text-[15px] font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-normal"
+                    className="p-2 outline-none bg-transparent w-full text-[12px] md:text-[15px] font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-normal"
                 />
-
-                {/* Actions Group */}
                 <div className="flex items-center gap-1">
                     {val && (
                         <button 
                             onClick={() => { setVal(""); setSuggest([]); }}
                             className="p-2 hover:bg-red-50 rounded-full text-slate-400 hover:text-red-800 transition-all active:scale-90"
                         >
-                            <svg xmlns="www.w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            <svg xmlns="www.w3.org" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                         </button>
                     )}
                 </div>
             </div>
-
-            {/* Suggestion Dropdown */}
             {val && (
                 <div className="absolute w-full bg-white/90 backdrop-blur-2xl border border-white rounded-b-[30px] mt-2 max-h-[420px] overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.15)] z-[100] animate-in fade-in zoom-in-95 duration-200">
                     <div className="overflow-y-auto max-h-[420px] no-scrollbar p-3">

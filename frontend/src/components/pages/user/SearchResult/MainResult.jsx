@@ -6,6 +6,8 @@ import { products } from "../../../../data/Product";
 import { topdanhgiasp } from "../../../../data/TopDanhGiaSP";
 import { NavLink } from "react-router-dom";
 import Checkbox from "../../../Checkbox";
+import { Menu, X } from "lucide-react";
+import TitleSection from "../../../TitleSection";
 
 export default function MainResult({ arr, title, hiddencat }) {
     const [filter, setFilter] = useState({
@@ -49,31 +51,37 @@ export default function MainResult({ arr, title, hiddencat }) {
     const totalPages = Math.ceil(filteredProducts.length / perPage);
     const currentData = filteredProducts.slice((page - 1) * perPage, page * perPage);
 
+    const [ isOpen, setIsOpen ] = useState(false);
     return (
-        <div className="grid grid-cols-5 gap-3">
-            {/* ==== Sidebar Filter ==== */}
-            <div className="col-span-1">
-                <div className="sticky top-0">
-                    <div className="text-xl font-bold mb-2">
-                        <i className="fa fa-filter mr-2"></i> Bộ lọc tìm kiếm
-                    </div>
+        <div className="">
+            <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-6">
+                <TitleSection>Kết quả tìm kiếm</TitleSection>
+                <button 
+                    onClick={() => setIsOpen(true)} 
+                    className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 active:scale-95 transition-all duration-200 rounded-full border border-gray-200 md:hidden"
+                >
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700">
+                        Bộ lọc
+                    </span>
+                    <Menu size={14} strokeWidth={2.5} className="text-gray-900" />
+                </button>
+            </div>
 
+            <div className="mb-6"></div>
+            <div className="md:grid md:grid-cols-5 md:gap-3 mb-2">
+                {/* ==== Sidebar Filter ==== */}
+                <div className={`md:col-span-1 md:sticky md:top-5 ${isOpen ? 'block md:hidden' : 'hidden md:block'}`}>
                     {/* Danh mục */}
-                    {
-                        !hiddencat ? 
-                        (
-                            <FilterBox title="Danh mục">
-                                {danhmucs.map((item) => (
-                                    <CheckItem
-                                        key={item.iddanhmuc}
-                                        item={item.tendanhmuc}
-                                        checked={filter.category.includes(item.iddanhmuc)}
-                                        onChange={() => handleFilter("category", item.iddanhmuc)}
-                                    />
-                                ))}
-                            </FilterBox>
-                        ) : (null)
-                    }
+                    <FilterBox title="Danh mục">
+                        {danhmucs.map((item) => (
+                            <CheckItem
+                                key={item.iddanhmuc}
+                                item={item.tendanhmuc}
+                                checked={filter.category.includes(item.iddanhmuc)}
+                                onChange={() => handleFilter("category", item.iddanhmuc)}
+                            />
+                        ))}
+                    </FilterBox>
 
 
                     {/* Thương hiệu */}
@@ -90,25 +98,32 @@ export default function MainResult({ arr, title, hiddencat }) {
 
                     <button
                         onClick={clearAll}
-                        className="mt-4 bg-red-800 text-white px-3 py-1 rounded-lg hover:shadow-md"
+                        className="mt-2 bg-red-800 text-white px-3 py-1 rounded-lg hover:shadow-md"
                     >
                         Xóa tất cả
                     </button>
-                </div>
-            </div>
-
-            {/* ==== Product List ==== */}
-            <div className="col-span-4">
-                <h1 className="text-xl font-bold mb-2">{title}</h1>
-
-                <div className="grid grid-cols-4 gap-4">
-                    {currentData.map((item) => (
-                        <ProductCard item={item} key={item.id} />
-                    ))}
+                    <div className="mt-6 pt-4 border-t border-slate-200 flex gap-2">
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-2 flex-1 justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-medium transition-colors"
+                        >
+                            Đóng <X size={18} />
+                        </button>
+                    </div>
                 </div>
 
-                {/* ==== Pagination ==== */}
-                <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                {/* ==== Product List ==== */}
+                <div className="md:col-span-4 mt-4">
+
+                    <div className={`grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}>
+                        {currentData.map((item) => (
+                            <ProductCard item={item} key={item.id} />
+                        ))}
+                    </div>
+
+                    {/* ==== Pagination ==== */}
+                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                </div>
             </div>
         </div>
     );

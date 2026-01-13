@@ -26,17 +26,15 @@ export default function SectionBanner() {
   };
 
   useEffect(() => {
-    timeoutRef.current = setTimeout(next, 5000); // Tăng lên 5s để người dùng kịp đọc nội dung
+    timeoutRef.current = setTimeout(next, 5000);
     return () => resetTimeout();
   }, [i]);
 
   return (
     <FadeIn>
-      <div className="relative w-full overflow-hidden group rounded-[32px] shadow-2xl shadow-slate-200/50">
-        
-        {/* Main Slider Container */}
+      <div className="relative w-full overflow-hidden group rounded-[16px] md:rounded-[32px] shadow-2xl shadow-slate-200/50">
         <div 
-          className="flex w-full h-[400px] md:h-[500px] lg:h-[500px] transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]"
+          className="flex w-full h-[160px] md:h-[300px] lg:h-[450px] transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]"
           style={{ transform: `translateX(-${i * 100}%)` }}
         >
           {images.map((img, idx) => (
@@ -46,29 +44,24 @@ export default function SectionBanner() {
                 className="w-full h-full select-none" 
                 alt={`banner-${idx}`} 
               />
-              {/* Overlay Gradient giúp text (nếu có) hiển thị tốt hơn và tạo chiều sâu */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
             </div>
           ))}
         </div>
-
-        {/* Nút Điều hướng - Glassmorphism Style */}
         <button 
           onClick={prev} 
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white opacity-0 group-hover:opacity-100 -translate-x-10 group-hover:translate-x-0 transition-all duration-500 hover:bg-white/40 active:scale-90 z-20"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 md:w-12 md:h-12 flex items-center justify-center rounded-sm md:rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white opacity-0 group-hover:opacity-100 -translate-x-10 group-hover:translate-x-0 transition-all duration-500 hover:bg-white/40 active:scale-90 z-20"
         >
-          <svg xmlns="www.w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <svg xmlns="www.w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
 
         <button 
           onClick={next} 
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white opacity-0 group-hover:opacity-100 translate-x-10 group-hover:translate-x-0 transition-all duration-500 hover:bg-white/40 active:scale-90 z-20"
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 md:w-12 md:h-12 flex items-center justify-center rounded-sm md:rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white opacity-0 group-hover:opacity-100 translate-x-10 group-hover:translate-x-0 transition-all duration-500 hover:bg-white/40 active:scale-90 z-20"
         >
-          <svg xmlns="www.w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          <svg xmlns="www.w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
-
-        {/* Chỉ số trạng thái (Pagination Dots) - Hiện đại */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+        <div className="absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
           {images.map((_, idx) => (
             <button
               key={idx}
@@ -81,8 +74,6 @@ export default function SectionBanner() {
             />
           ))}
         </div>
-
-        {/* Hiệu ứng nhịp đập (Pulse) báo hiệu có nội dung mới */}
         <div className="absolute top-6 right-6 hidden md:flex items-center gap-2 px-3 py-1.5 bg-black/20 backdrop-blur-xl rounded-full border border-white/10">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
