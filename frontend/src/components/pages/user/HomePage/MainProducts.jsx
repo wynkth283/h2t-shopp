@@ -114,7 +114,7 @@ export default function MainProducts() {
                 {/* ==== Product List ==== */}
                 <div className="md:col-span-4 mt-4">
 
-                    <div className={`grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}>
+                    <div className={`grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-4`}>
                         {currentData.map((item) => (
                             <ProductCard item={item} key={item.id} />
                         ))}
