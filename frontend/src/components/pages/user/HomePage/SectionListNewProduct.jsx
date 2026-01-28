@@ -27,7 +27,7 @@ export default function SectionListNewProduct() {
                         Xem tất cả <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </NavLink>
                 </div>
-                <ContainerScrollInViewIn  className={`grid grid-cols-${sl_hienthi} gap-4`}>
+                <ContainerScrollInViewIn  className={`grid grid-cols-2 md:grid-cols-${sl_hienthi} gap-4`}>
                     {
                         spmoi.slice(0,sl_hienthi).map((item) => (
                             <ItemScrollInView key={item.id}>
