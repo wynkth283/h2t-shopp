@@ -13,7 +13,7 @@ const products = [
         hoivien: false,
         idthuonghieu: 1,
         iddanhmuc: 1,
-        hasVariants: true,
+        hasVariants: true, 
         variants: {
             color: [
                 { name: "Silver", price: 52490000 },

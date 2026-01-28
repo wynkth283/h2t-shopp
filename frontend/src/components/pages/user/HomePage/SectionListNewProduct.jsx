@@ -8,7 +8,7 @@ import TitleSection from "../../../TitleSection";
 
 export default function SectionListNewProduct() {
     const sl_hienthi = 4;
-    const _day = 20  * 86400000;
+    const _day = 180  * 86400000;
     const ngayhientai = Date.now();
 
     const spmoi = products.filter(i => {

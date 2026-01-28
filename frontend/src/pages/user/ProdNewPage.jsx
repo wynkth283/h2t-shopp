@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/Breadcrumb";
 
 export default function ProdNewPage() {
     document.title = 'Sản phẩm mới | H2T Shopp';
-    const _day = 20 * 86400000;
+    const _day = 180 * 86400000;
     const ngayhientai = Date.now();
 
     const spmoi = products.filter(i => {
