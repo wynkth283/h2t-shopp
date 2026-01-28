@@ -69,7 +69,7 @@ export default function MainProducts() {
             <div className="mb-6"></div>
             <div className="md:grid md:grid-cols-5 md:gap-3 mb-2">
                 {/* ==== Sidebar Filter ==== */}
-                <div className={`md:col-span-1 md:sticky md:top-5 ${isOpen ? 'block' : 'hidden'}`}>
+                <div className={`md:col-span-1 md:sticky md:top-5 ${isOpen ? 'block md:hidden' : 'hidden md:block'}`}>
                     {/* Danh mục */}
                     <FilterBox title="Danh mục">
                         {danhmucs.map((item) => (
@@ -104,7 +104,7 @@ export default function MainProducts() {
                     <div className="mt-6 pt-4 border-t border-slate-200 flex gap-2">
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2 flex-1 justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-medium transition-colors"
+                            className="flex md:hidden items-center gap-2 flex-1 justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-medium transition-colors"
                         >
                             Đóng <X size={18} />
                         </button>

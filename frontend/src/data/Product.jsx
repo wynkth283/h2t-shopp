@@ -13,7 +13,7 @@ const products = [
         hoivien: false,
         idthuonghieu: 1,
         iddanhmuc: 1,
-        hasVariants: true, // Thêm flag để đánh dấu sản phẩm có biến thể
+        hasVariants: true,
         variants: {
             color: [
                 { name: "Silver", price: 52490000 },
