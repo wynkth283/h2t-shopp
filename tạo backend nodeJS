@@ -1,7 +1,0 @@
-mkdir backend
-
-cd backend && npm init -y
-
-cd backend && npm install express cors dotenv
-
-npm install --save-dev nodemon
